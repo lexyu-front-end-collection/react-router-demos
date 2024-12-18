@@ -8,4 +8,13 @@ export default defineConfig({
     TanStackRouterVite(),
     react()
   ],
+  server: {
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+    },
+    watch: {
+      usePolling: true,
+    },
+  },
 })
