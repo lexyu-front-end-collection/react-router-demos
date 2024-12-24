@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-gray-50 text-gray-900;
+}
+
+/* Navigation styles */
+.p-2.flex.gap-2 {
+    @apply bg-black shadow-sm py-4 px-6 mb-6;
+}
+
+.p-2.flex.gap-2 a {
+    @apply text-white hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200;
+}
+
+.p-2.flex.gap-2 a.active {
+    @apply text-blue-600 font-semibold;
+}
+
+/* Main content area */
+#root {
+    @apply min-h-screen;
+}
+
+#root>hr {
+    @apply hidden;
+}
+
+/* Main content container */
+.p-2.flex.gap-2+hr+* {
+    @apply max-w-6xl mx-auto px-4 py-6;
+}
+
+/* Optional: Improve default text styles */
+h1 {
+    @apply text-2xl font-bold mb-4;
+}
+
+h2 {
+    @apply text-xl font-semibold mb-3;
+}
+
+p {
+    @apply leading-relaxed mb-4;
+}
