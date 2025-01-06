@@ -13,8 +13,12 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SearchImport } from './routes/search'
+import { Route as ProfileImport } from './routes/profile'
 import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as PokemonIndexImport } from './routes/pokemon/index'
 import { Route as PostsPostIdImport } from './routes/posts/$postId'
+import { Route as PokemonIdImport } from './routes/pokemon/$id'
 
 // Create Virtual Routes
 
@@ -29,6 +33,18 @@ const AboutLazyRoute = AboutLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
+const SearchRoute = SearchImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProfileRoute = ProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
@@ -41,9 +57,21 @@ const PostsIndexRoute = PostsIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const PokemonIndexRoute = PokemonIndexImport.update({
+  id: '/pokemon/',
+  path: '/pokemon/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PostsPostIdRoute = PostsPostIdImport.update({
   id: '/posts/$postId',
   path: '/posts/$postId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PokemonIdRoute = PokemonIdImport.update({
+  id: '/pokemon/$id',
+  path: '/pokemon/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -58,6 +86,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
+      parentRoute: typeof rootRoute
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -65,11 +107,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/pokemon/$id': {
+      id: '/pokemon/$id'
+      path: '/pokemon/$id'
+      fullPath: '/pokemon/$id'
+      preLoaderRoute: typeof PokemonIdImport
+      parentRoute: typeof rootRoute
+    }
     '/posts/$postId': {
       id: '/posts/$postId'
       path: '/posts/$postId'
       fullPath: '/posts/$postId'
       preLoaderRoute: typeof PostsPostIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/pokemon/': {
+      id: '/pokemon/'
+      path: '/pokemon'
+      fullPath: '/pokemon'
+      preLoaderRoute: typeof PokemonIndexImport
       parentRoute: typeof rootRoute
     }
     '/posts/': {
@@ -86,46 +142,91 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/about': typeof AboutLazyRoute
+  '/pokemon/$id': typeof PokemonIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/pokemon': typeof PokemonIndexRoute
   '/posts': typeof PostsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/about': typeof AboutLazyRoute
+  '/pokemon/$id': typeof PokemonIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/pokemon': typeof PokemonIndexRoute
   '/posts': typeof PostsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/profile': typeof ProfileRoute
+  '/search': typeof SearchRoute
   '/about': typeof AboutLazyRoute
+  '/pokemon/$id': typeof PokemonIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
+  '/pokemon/': typeof PokemonIndexRoute
   '/posts/': typeof PostsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/posts/$postId' | '/posts'
+  fullPaths:
+    | '/'
+    | '/profile'
+    | '/search'
+    | '/about'
+    | '/pokemon/$id'
+    | '/posts/$postId'
+    | '/pokemon'
+    | '/posts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/posts/$postId' | '/posts'
-  id: '__root__' | '/' | '/about' | '/posts/$postId' | '/posts/'
+  to:
+    | '/'
+    | '/profile'
+    | '/search'
+    | '/about'
+    | '/pokemon/$id'
+    | '/posts/$postId'
+    | '/pokemon'
+    | '/posts'
+  id:
+    | '__root__'
+    | '/'
+    | '/profile'
+    | '/search'
+    | '/about'
+    | '/pokemon/$id'
+    | '/posts/$postId'
+    | '/pokemon/'
+    | '/posts/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  ProfileRoute: typeof ProfileRoute
+  SearchRoute: typeof SearchRoute
   AboutLazyRoute: typeof AboutLazyRoute
+  PokemonIdRoute: typeof PokemonIdRoute
   PostsPostIdRoute: typeof PostsPostIdRoute
+  PokemonIndexRoute: typeof PokemonIndexRoute
   PostsIndexRoute: typeof PostsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  ProfileRoute: ProfileRoute,
+  SearchRoute: SearchRoute,
   AboutLazyRoute: AboutLazyRoute,
+  PokemonIdRoute: PokemonIdRoute,
   PostsPostIdRoute: PostsPostIdRoute,
+  PokemonIndexRoute: PokemonIndexRoute,
   PostsIndexRoute: PostsIndexRoute,
 }
 
@@ -140,19 +241,35 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/profile",
+        "/search",
         "/about",
+        "/pokemon/$id",
         "/posts/$postId",
+        "/pokemon/",
         "/posts/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
+    "/profile": {
+      "filePath": "profile.tsx"
+    },
+    "/search": {
+      "filePath": "search.tsx"
+    },
     "/about": {
       "filePath": "about.lazy.tsx"
     },
+    "/pokemon/$id": {
+      "filePath": "pokemon/$id.tsx"
+    },
     "/posts/$postId": {
       "filePath": "posts/$postId.tsx"
+    },
+    "/pokemon/": {
+      "filePath": "pokemon/index.tsx"
     },
     "/posts/": {
       "filePath": "posts/index.tsx"
