@@ -12,7 +12,7 @@ const styleProps = {
 export const Route = createRootRoute({
     component: () => (
         <>
-            <div className="p-2 flex gap-2">
+            <div className="flex gap-2 p-2">
                 <Link to="/" className="[&.active]:font-bold">
                     Home
                 </Link>
@@ -44,10 +44,13 @@ export const Route = createRootRoute({
                     Search
                 </Link>
 
+                <Link to='/login'>
+
+                </Link>
 
 
                 <Link to="/profile"
-                    className='font-bold p-2 ml-auto'
+                    className='p-2 ml-auto font-bold'
                     activeProps={styleProps}>
                     {({ isActive }) => <>{isActive && "~"} Profile {isActive && "~"}</>}
                 </Link>
