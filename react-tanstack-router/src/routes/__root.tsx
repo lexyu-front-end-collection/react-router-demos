@@ -1,6 +1,7 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { createRootRoute, createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { ItemFilters } from './search'
+import { AuthContext } from '../hooks/useAuth'
 
 const styleProps = {
     style: {
@@ -9,10 +10,14 @@ const styleProps = {
     }
 }
 
-export const Route = createRootRoute({
+type RouterContext = {
+    authentication: AuthContext;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
     component: () => (
         <>
-            <div className="flex gap-2 p-2">
+            <div className="flex flex-wrap gap-2 p-2">
                 <Link to="/" className="[&.active]:font-bold">
                     Home
                 </Link>
@@ -45,9 +50,16 @@ export const Route = createRootRoute({
                 </Link>
 
                 <Link to='/login'>
-
+                    Login
                 </Link>
 
+                <Link to="/dashboard" >
+                    Dashboard
+                </Link>
+
+                <Link to="/settings">
+                    Settings
+                </Link>
 
                 <Link to="/profile"
                     className='p-2 ml-auto font-bold'

@@ -1,16 +1,16 @@
 /**
  * For React Custom Auth Hook
  */
-const useAuth = () => {
+export const useAuth = () => {
     const signIn = () => {
-        localStorage.setItem('isAuthenticated', 'true')
+        localStorage.setItem('authenticated', 'true')
     }
     const signOut = () => {
-        localStorage.removeItem('isAuthenticated')
+        localStorage.removeItem('authenticated')
     }
 
     const isLoggedIn = () => {
-        return localStorage.getItem('isAuthenticated') === 'true'
+        return localStorage.getItem('authenticated') === 'true'
     }
 
     return { signIn, signOut, isLoggedIn }

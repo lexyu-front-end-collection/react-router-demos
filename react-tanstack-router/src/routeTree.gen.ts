@@ -21,8 +21,8 @@ import { Route as PostsIndexImport } from './routes/posts/index'
 import { Route as PokemonIndexImport } from './routes/pokemon/index'
 import { Route as PostsPostIdImport } from './routes/posts/$postId'
 import { Route as PokemonIdImport } from './routes/pokemon/$id'
-import { Route as AuthenticatedSettingsImport } from './routes/authenticated/settings'
-import { Route as AuthenticatedDashboardImport } from './routes/authenticated/dashboard'
+import { Route as AuthenticatedSettingsImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
 
 // Create Virtual Routes
 
@@ -91,15 +91,15 @@ const PokemonIdRoute = PokemonIdImport.update({
 } as any)
 
 const AuthenticatedSettingsRoute = AuthenticatedSettingsImport.update({
-  id: '/authenticated/settings',
-  path: '/authenticated/settings',
-  getParentRoute: () => rootRoute,
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const AuthenticatedDashboardRoute = AuthenticatedDashboardImport.update({
-  id: '/authenticated/dashboard',
-  path: '/authenticated/dashboard',
-  getParentRoute: () => rootRoute,
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -148,19 +148,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/authenticated/dashboard': {
-      id: '/authenticated/dashboard'
-      path: '/authenticated/dashboard'
-      fullPath: '/authenticated/dashboard'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AuthenticatedImport
     }
-    '/authenticated/settings': {
-      id: '/authenticated/settings'
-      path: '/authenticated/settings'
-      fullPath: '/authenticated/settings'
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
       preLoaderRoute: typeof AuthenticatedSettingsImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AuthenticatedImport
     }
     '/pokemon/$id': {
       id: '/pokemon/$id'
@@ -195,15 +195,29 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '': typeof AuthenticatedRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/about': typeof AboutLazyRoute
-  '/authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/pokemon': typeof PokemonIndexRoute
@@ -212,13 +226,13 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '': typeof AuthenticatedRoute
+  '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/about': typeof AboutLazyRoute
-  '/authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/pokemon': typeof PokemonIndexRoute
@@ -228,13 +242,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/_authenticated': typeof AuthenticatedRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/about': typeof AboutLazyRoute
-  '/authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/pokemon/$id': typeof PokemonIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/pokemon/': typeof PokemonIndexRoute
@@ -250,8 +264,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/search'
     | '/about'
-    | '/authenticated/dashboard'
-    | '/authenticated/settings'
+    | '/dashboard'
+    | '/settings'
     | '/pokemon/$id'
     | '/posts/$postId'
     | '/pokemon'
@@ -264,8 +278,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/search'
     | '/about'
-    | '/authenticated/dashboard'
-    | '/authenticated/settings'
+    | '/dashboard'
+    | '/settings'
     | '/pokemon/$id'
     | '/posts/$postId'
     | '/pokemon'
@@ -278,8 +292,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/search'
     | '/about'
-    | '/authenticated/dashboard'
-    | '/authenticated/settings'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/settings'
     | '/pokemon/$id'
     | '/posts/$postId'
     | '/pokemon/'
@@ -289,13 +303,11 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AuthenticatedRoute: typeof AuthenticatedRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
   SearchRoute: typeof SearchRoute
   AboutLazyRoute: typeof AboutLazyRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   PokemonIdRoute: typeof PokemonIdRoute
   PostsPostIdRoute: typeof PostsPostIdRoute
   PokemonIndexRoute: typeof PokemonIndexRoute
@@ -304,13 +316,11 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AuthenticatedRoute: AuthenticatedRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
   SearchRoute: SearchRoute,
   AboutLazyRoute: AboutLazyRoute,
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   PokemonIdRoute: PokemonIdRoute,
   PostsPostIdRoute: PostsPostIdRoute,
   PokemonIndexRoute: PokemonIndexRoute,
@@ -333,8 +343,6 @@ export const routeTree = rootRoute
         "/profile",
         "/search",
         "/about",
-        "/authenticated/dashboard",
-        "/authenticated/settings",
         "/pokemon/$id",
         "/posts/$postId",
         "/pokemon/",
@@ -345,7 +353,11 @@ export const routeTree = rootRoute
       "filePath": "index.lazy.tsx"
     },
     "/_authenticated": {
-      "filePath": "_authenticated.tsx"
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/dashboard",
+        "/_authenticated/settings"
+      ]
     },
     "/login": {
       "filePath": "login.tsx"
@@ -359,11 +371,13 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.lazy.tsx"
     },
-    "/authenticated/dashboard": {
-      "filePath": "authenticated/dashboard.tsx"
+    "/_authenticated/dashboard": {
+      "filePath": "_authenticated/dashboard.tsx",
+      "parent": "/_authenticated"
     },
-    "/authenticated/settings": {
-      "filePath": "authenticated/settings.tsx"
+    "/_authenticated/settings": {
+      "filePath": "_authenticated/settings.tsx",
+      "parent": "/_authenticated"
     },
     "/pokemon/$id": {
       "filePath": "pokemon/$id.tsx"
