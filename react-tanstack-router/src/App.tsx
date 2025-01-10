@@ -8,6 +8,7 @@ import { useAuth } from './hooks/useAuth'
 const router = createRouter({
   routeTree,
   context: { authentication: undefined! },
+  defaultNotFoundComponent: () => <div>Gloabal Not Found Here!</div>,
 })
 
 // Register the router instance for type safety

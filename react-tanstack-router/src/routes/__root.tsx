@@ -61,6 +61,22 @@ export const Route = createRootRouteWithContext<RouterContext>()({
                     Settings
                 </Link>
 
+                <Link to="/first-level">
+                    First Level
+                </Link>
+
+                <Link to="/layouts/visibleLayout">
+                    Visible Layouts
+                </Link>
+
+                <Link to="/foo/bar/baz">
+                    Nested Path
+                </Link>
+
+                <Link to="/one/two/three">
+                    One.Two.Three
+                </Link>
+
                 <Link to="/profile"
                     className='p-2 ml-auto font-bold'
                     activeProps={styleProps}>
