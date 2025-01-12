@@ -2,21 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    @apply bg-gray-50 text-gray-900;
+@layer base {
+    :root {
+        --background: 20 14.3% 4.1%;
+        --foreground: 0 0% 95%;
+        --card: 24 9.8% 10%;
+        --card-foreground: 0 0% 95%;
+        --popover: 0 0% 9%;
+        --popover-foreground: 0 0% 95%;
+        --primary: 142.1 70.6% 45.3%;
+        --primary-foreground: 144.9 80.4% 10%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 120 51% 9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 120 82% 22%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 85.7% 97.3%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 142.4 71.8% 29.2%;
+        --radius: 0.5rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
 /* Navigation styles */
 .p-2.flex.gap-2 {
-    @apply bg-black shadow-sm py-4 px-6 mb-6;
+    @apply px-6 py-4 mb-6 bg-blue-900 shadow-sm;
 }
 
 .p-2.flex.gap-2 a {
-    @apply text-white hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200;
+    @apply px-3 py-2 font-bold text-white rounded-md transition-colors duration-200 hover:text-green-300;
 }
 
 .p-2.flex.gap-2 a.active {
-    @apply text-blue-600 font-semibold;
+    @apply font-semibold text-green-300;
 }
 
 /* Main content area */
@@ -30,18 +61,18 @@ body {
 
 /* Main content container */
 .p-2.flex.gap-2+hr+* {
-    @apply max-w-6xl mx-auto px-4 py-6;
+    @apply px-4 py-6 mx-auto max-w-6xl;
 }
 
 /* Optional: Improve default text styles */
 h1 {
-    @apply text-2xl font-bold mb-4;
+    @apply mb-4 text-2xl font-bold;
 }
 
 h2 {
-    @apply text-xl font-semibold mb-3;
+    @apply mb-3 text-xl font-semibold;
 }
 
 p {
-    @apply leading-relaxed mb-4;
+    @apply mb-4 leading-relaxed;
 }
