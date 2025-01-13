@@ -64,6 +64,7 @@ function Search() {
 			<h1>Search</h1>
 			You searched for:{" "}
 			<input
+				className='text-blue-800 font-bold'
 				// value={localQuery}
 				// onChange={e => setLocalQuery(e.target.value)}
 				value={query}
@@ -87,11 +88,11 @@ function Search() {
 				)}
 			>
 				{
-				categoriesArray.map((category) => (
-					<option key={category} value={category}>
-						{category}
-					</option>
-				))
+					categoriesArray.map((category) => (
+						<option key={category} value={category} className='text-cyan-700 font-bold'>
+							{category}
+						</option>
+					))
 				/* {["electronics", "clothing", "books", "toys"].map((category) => (
 					<option key={category} value={category}>
 						{category}
