@@ -8,7 +8,7 @@ export default defineConfig({
     TanStackRouterVite(),
     react()
   ],
-  base: "/",
+  base: "./",
   server: {
     hmr: {
       protocol: 'ws',
