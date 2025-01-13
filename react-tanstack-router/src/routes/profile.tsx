@@ -9,10 +9,10 @@ import {
     AlertDialogTitle,
 } from "../components/ui/alert";
 import { createFileRoute, redirect, useBlocker } from '@tanstack/react-router'
-import { isAuthenticated } from '../utils/auth'
+// import { isAuthenticated } from '../utils/auth'
 import { useState } from 'react'
 import { Input } from '../components/ui/input'
-import { Button } from '../components/ui/button'
+// import { Button } from '../components/ui/button'
 
 export const Route = createFileRoute('/profile')({
     /* 1.
@@ -38,7 +38,7 @@ export const Route = createFileRoute('/profile')({
 
 function Profile() {
     const [name, setName] = useState('')
-    const { proceed, reset, status, next } = useBlocker({
+    const { proceed, reset, status } = useBlocker({
         shouldBlockFn: () => {
             console.log(name)
             if (!!name) {

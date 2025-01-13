@@ -1,5 +1,4 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
 import * as v from 'valibot'
 
 const categoriesArray = ['electronics', 'clothing', 'books', 'toys'];
