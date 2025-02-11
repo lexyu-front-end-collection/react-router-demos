@@ -18,7 +18,6 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <h1>TanStack Router + Query + Table</h1>
         <RouterProvider router={router} />
       </QueryClientProvider>
     </>

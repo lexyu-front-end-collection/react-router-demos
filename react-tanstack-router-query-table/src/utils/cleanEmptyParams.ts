@@ -1,0 +1,1 @@
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '../components/Table';

@@ -11,37 +11,61 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UsersImport } from './routes/users'
 
 // Create/Update Routes
+
+const UsersRoute = UsersImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {}
+  interface FileRoutesByPath {
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersImport
+      parentRoute: typeof rootRoute
+    }
+  }
 }
 
 // Create and export the route tree
 
-export interface FileRoutesByFullPath {}
+export interface FileRoutesByFullPath {
+  '/users': typeof UsersRoute
+}
 
-export interface FileRoutesByTo {}
+export interface FileRoutesByTo {
+  '/users': typeof UsersRoute
+}
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/users': typeof UsersRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: never
+  fullPaths: '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: never
-  id: '__root__'
+  to: '/users'
+  id: '__root__' | '/users'
   fileRoutesById: FileRoutesById
 }
 
-export interface RootRouteChildren {}
+export interface RootRouteChildren {
+  UsersRoute: typeof UsersRoute
+}
 
-const rootRouteChildren: RootRouteChildren = {}
+const rootRouteChildren: RootRouteChildren = {
+  UsersRoute: UsersRoute,
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
@@ -52,7 +76,12 @@ export const routeTree = rootRoute
   "routes": {
     "__root__": {
       "filePath": "__root.tsx",
-      "children": []
+      "children": [
+        "/users"
+      ]
+    },
+    "/users": {
+      "filePath": "users.tsx"
     }
   }
 }
